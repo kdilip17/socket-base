@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Socket Connection 1</title>
+  </head>
+  <body>
+    Client1
+    <button onclick="subscribe()">Subscribe</button>
+    <button onclick="unsubscribe()">Unsubscribe</button>
+    <button onclick="totalSubscribers()">Total Subscribers</button>
+    <button onclick="others()">Others</button>
+  </body>
+  <script>
+    var socket;
+    const socketMessageListener = (event) => {
+      console.log(event.data);
+    };
+
+    // Open
+    const socketOpenListener = (event) => {
+      console.log("Connected");
+      socket.send(JSON.stringify({ type: "PING" }));
+    };
+
+    // Closed
+    const socketCloseListener = (event) => {
+      if (socket) {
+        console.error("Disconnected.");
+      }
+      socket = new WebSocket("ws://localhost:3000");
+      socket.addEventListener("open", socketOpenListener);
+      socket.addEventListener("message", socketMessageListener);
+      socket.addEventListener("close", socketCloseListener);
+    };
+    socketCloseListener();
+
+    const subscribe = () => {
+      socket.send(JSON.stringify({ type: "SUBSCRIBE" }));
+    };
+    const unsubscribe = () => {
+      socket.send(JSON.stringify({ type: "UNSUBSCRIBE" }));
+    };
+    const totalSubscribers = async () => {
+      if (socket.readyState === 1) {
+        socket.send(JSON.stringify({ type: "CountSubscribers" }));
+      }
+    };
+    const others = () => {
+      socket.send(JSON.stringify({ type: "OTHERS" }));
+    };
+  </script>
+</html>
