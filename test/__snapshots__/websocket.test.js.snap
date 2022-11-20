@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`WebSocket Server -  Success -  sends count message with timestamp if receives from {'type': 'COUNTSUBSCRIBERS'} 1`] = `"{"type":"UNSUBSCRIBE","count":1,"updatedAt":"2022-11-20T11:29:54.304Z"}"`;
+
+exports[`WebSocket Server -  Success -  sends subribed message with timestamp if receives from {'type': 'SUBSCRIBE'} 1`] = `[Error: connect ECONNREFUSED 127.0.0.1:3002]`;
+
+exports[`WebSocket Server -  Success -  sends subribed message with timestamp if receives from {'type': 'SUBSCRIBE'} 2`] = `"{"type":"SUBSCRIBE","status":"Subscribed","updatedAt":"2022-11-20T11:29:54.304Z"}"`;
+
+exports[`WebSocket Server -  Success -  sends unsubribed message with timestamp if receives from {'type': 'UNSUBSCRIBE'} 1`] = `"{"type":"UNSUBSCRIBE","status":"Unubscribed","updatedAt":"2022-11-20T11:29:54.304Z"}"`;

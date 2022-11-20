@@ -2,6 +2,8 @@ const express = require("express");
 const app = express();
 const server = require("http").createServer(app);
 const WebSocket = require("ws");
+// general Config
+const generalConfig = require("./general.config");
 
 const wss = new WebSocket.Server({ server: server });
 
@@ -16,7 +18,7 @@ wss.on("connection", (ws) => {
         updatedAt: new Date(),
       })
     );
-  }, 10000);
+  }, 1000 * generalConfig.heartbeatDelay);
 
   ws.on("message", (data) => {
     let message;
@@ -41,7 +43,7 @@ wss.on("connection", (ws) => {
                 updatedAt: actionTime,
               })
             );
-          }, 0);
+          }, 1000 * generalConfig.subscriberDelay);
         });
         break;
       }
@@ -58,7 +60,7 @@ wss.on("connection", (ws) => {
                 })
               );
               client.close();
-            }, 0);
+            }, 1000 * generalConfig.unsubscribeDelay);
           }
         });
         break;
@@ -95,4 +97,6 @@ const sendError = (ws, message, timestamp) => {
 
 app.get("/", (req, res) => res.send("Hello World!"));
 
-server.listen(3000, () => console.log(`Lisening on port :3000`));
+server.listen(generalConfig.port, () =>
+  console.log(`Lisening on port : ${generalConfig.port}`)
+);
